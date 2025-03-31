@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\ExpressionLanguage\Functions;
+namespace Tourze\EcolBundle\Functions;
 
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
