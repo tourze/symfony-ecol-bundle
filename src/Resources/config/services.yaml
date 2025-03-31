@@ -1,0 +1,13 @@
+services:
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false
+
+  Tourze\EcolBundle\Functions\:
+    resource: '../../Functions/'
+  Tourze\EcolBundle\Service\:
+    resource: '../../Service/'
+  Tourze\EcolBundle\Value\:
+    resource: '../../Value/'
