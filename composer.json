@@ -9,10 +9,13 @@
     "symfony/dependency-injection": "^6.4",
     "symfony/yaml": "^6.4 || ^7.1",
     "symfony/expression-language": "^6.4",
+    "symfony/http-kernel": "^6.4",
     "symfony/framework-bundle": "^6.4",
+    "symfony/security-core": "^6.4",
     "symfony/security-bundle": "^6.4",
     "symfony/twig-bundle": "^6.4",
-    "nesbot/carbon": "^2.72 || ^3"
+    "nesbot/carbon": "^2.72 || ^3",
+    "psr/log": "^3|^2|^1"
   },
   "autoload": {
     "psr-4": {
