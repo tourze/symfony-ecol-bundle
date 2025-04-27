@@ -6,11 +6,11 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
+use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
-use Tourze\DoctrineHelper\ReflectionHelper;
 use Tourze\EcolBundle\Attribute\Expression;
 use Tourze\EcolBundle\Service\Engine;
 
@@ -29,18 +29,25 @@ class ExpressionCheckSubscriber
 
     public function prePersist(PrePersistEventArgs $eventArgs): void
     {
-        $this->checkExpression($eventArgs->getObject());
+        $object = $eventArgs->getObject();
+        $this->checkExpression(
+            $object,
+            $eventArgs->getObjectManager()->getClassMetadata($object::class)->getReflectionClass(),
+        );
     }
 
     public function preUpdate(PreUpdateEventArgs $eventArgs): void
     {
-        $this->checkExpression($eventArgs->getObject());
+        $object = $eventArgs->getObject();
+        $this->checkExpression(
+            $object,
+            $eventArgs->getObjectManager()->getClassMetadata($object::class)->getReflectionClass(),
+        );
     }
 
-    private function checkExpression(object $model): void
+    private function checkExpression(object $model, ReflectionClass $reflectionClass): void
     {
-        $reflection = ReflectionHelper::getClassReflection($model);
-        foreach ($reflection->getProperties() as $property) {
+        foreach ($reflectionClass->getProperties() as $property) {
             $attributes = $property->getAttributes(Expression::class);
             if (empty($attributes)) {
                 continue;
