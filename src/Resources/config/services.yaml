@@ -5,9 +5,15 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     public: false
 
+  Tourze\EcolBundle\EventSubscriber\:
+    resource: '../../EventSubscriber/'
   Tourze\EcolBundle\Functions\:
     resource: '../../Functions/'
   Tourze\EcolBundle\Service\:
     resource: '../../Service/'
   Tourze\EcolBundle\Value\:
     resource: '../../Value/'
+
+  symfony-ecol.property-accessor:
+    class: Symfony\Component\PropertyAccess\PropertyAccessor
+    factory: [ 'Symfony\Component\PropertyAccess\PropertyAccess', 'createPropertyAccessor' ]
