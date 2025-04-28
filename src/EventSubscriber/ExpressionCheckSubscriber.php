@@ -3,9 +3,8 @@
 namespace Tourze\EcolBundle\EventSubscriber;
 
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
-use Doctrine\ORM\Event\PrePersistEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use ReflectionClass;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -27,7 +26,7 @@ class ExpressionCheckSubscriber
     ) {
     }
 
-    public function prePersist(PrePersistEventArgs $eventArgs): void
+    public function prePersist(LifecycleEventArgs $eventArgs): void
     {
         $object = $eventArgs->getObject();
         $this->checkExpression(
@@ -36,7 +35,7 @@ class ExpressionCheckSubscriber
         );
     }
 
-    public function preUpdate(PreUpdateEventArgs $eventArgs): void
+    public function preUpdate(LifecycleEventArgs $eventArgs): void
     {
         $object = $eventArgs->getObject();
         $this->checkExpression(
