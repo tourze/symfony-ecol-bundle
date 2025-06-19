@@ -29,7 +29,6 @@ class CurrentTimestampTest extends TestCase
     public function testGetNames_shouldReturnExpectedNames(): void
     {
         $names = $this->currentTimestamp->getNames();
-        $this->assertIsArray($names);
         $this->assertContains('当前时间戳', $names);
     }
 

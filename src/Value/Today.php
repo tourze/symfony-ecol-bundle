@@ -2,7 +2,7 @@
 
 namespace Tourze\EcolBundle\Value;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class Today implements ExpressionValue
 {
@@ -26,6 +26,6 @@ class Today implements ExpressionValue
 
     public function getValue(array $values): mixed
     {
-        return Carbon::now()->format('Ymd');
+        return CarbonImmutable::now()->format('Ymd');
     }
 }

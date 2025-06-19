@@ -2,7 +2,7 @@
 
 namespace Tourze\EcolBundle\Tests\Value;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use PHPUnit\Framework\TestCase;
 use Tourze\EcolBundle\Value\Today;
 
@@ -30,13 +30,12 @@ class TodayTest extends TestCase
     public function testGetNames_shouldReturnExpectedNames(): void
     {
         $names = $this->today->getNames();
-        $this->assertIsArray($names);
         $this->assertContains('当天日期', $names);
     }
 
     public function testGetValue_shouldReturnCurrentDateInCorrectFormat(): void
     {
-        $expectedFormat = Carbon::now()->format('Ymd');
+        $expectedFormat = CarbonImmutable::now()->format('Ymd');
         $value = $this->today->getValue([]);
         $this->assertEquals($expectedFormat, $value);
     }

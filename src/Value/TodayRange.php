@@ -2,7 +2,7 @@
 
 namespace Tourze\EcolBundle\Value;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class TodayRange implements ExpressionValue
 {
@@ -26,7 +26,7 @@ class TodayRange implements ExpressionValue
 
     public function getValue(array $values): mixed
     {
-        $date = Carbon::now();
+        $date = CarbonImmutable::now();
 
         return [
             $date->clone()->startOfDay()->getTimestamp(),

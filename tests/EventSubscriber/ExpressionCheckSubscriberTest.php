@@ -37,11 +37,14 @@ class ExpressionCheckSubscriberTest extends TestCase
         // 创建测试实体
         $entity = new class {
             #[Expression]
+            /** @phpstan-ignore-next-line */
             private string $condition = 'a > b';
             
             #[Expression]
+            /** @phpstan-ignore-next-line */
             private string $emptyCondition = '';
             
+            /** @phpstan-ignore-next-line */
             private string $nonExpressionField = 'some value';
         };
         
@@ -92,6 +95,7 @@ class ExpressionCheckSubscriberTest extends TestCase
         // 创建测试实体
         $entity = new class {
             #[Expression]
+            /** @phpstan-ignore-next-line */
             private string $condition = 'a > b';
         };
         
@@ -140,6 +144,7 @@ class ExpressionCheckSubscriberTest extends TestCase
         // 创建测试实体
         $entity = new class {
             #[Expression]
+            /** @phpstan-ignore-next-line */
             private string $invalidCondition = 'a > >';
         };
         
@@ -174,6 +179,7 @@ class ExpressionCheckSubscriberTest extends TestCase
         // 创建测试实体
         $entity = new class {
             #[Expression]
+            /** @phpstan-ignore-next-line */
             private string $emptyCondition = '';
         };
         

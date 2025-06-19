@@ -22,8 +22,6 @@ class MathFunctionProviderTest extends TestCase
     public function testGetFunctions_shouldReturnExpressionFunctionArray(): void
     {
         $functions = $this->provider->getFunctions();
-        
-        $this->assertIsArray($functions);
         $this->assertNotEmpty($functions);
         
         foreach ($functions as $function) {

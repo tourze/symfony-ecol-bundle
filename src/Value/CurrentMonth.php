@@ -2,7 +2,7 @@
 
 namespace Tourze\EcolBundle\Value;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class CurrentMonth implements ExpressionValue
 {
@@ -26,6 +26,6 @@ class CurrentMonth implements ExpressionValue
 
     public function getValue(array $values): mixed
     {
-        return Carbon::now()->month;
+        return CarbonImmutable::now()->month;
     }
 }

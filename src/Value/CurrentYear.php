@@ -2,7 +2,7 @@
 
 namespace Tourze\EcolBundle\Value;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class CurrentYear implements ExpressionValue
 {
@@ -26,6 +26,6 @@ class CurrentYear implements ExpressionValue
 
     public function getValue(array $values): mixed
     {
-        return Carbon::now()->year;
+        return CarbonImmutable::now()->year;
     }
 }

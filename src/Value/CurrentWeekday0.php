@@ -2,7 +2,7 @@
 
 namespace Tourze\EcolBundle\Value;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class CurrentWeekday0 implements ExpressionValue
 {
@@ -26,6 +26,6 @@ class CurrentWeekday0 implements ExpressionValue
 
     public function getValue(array $values): mixed
     {
-        return Carbon::now()->startOfWeek()->weekday(0)->format('Ymd');
+        return CarbonImmutable::now()->startOfWeek()->weekday(0)->format('Ymd');
     }
 }

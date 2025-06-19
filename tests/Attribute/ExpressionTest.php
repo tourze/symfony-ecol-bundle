@@ -12,6 +12,7 @@ class ExpressionTest extends TestCase
         // 定义一个带有Expression属性的类
         $testEntity = new class {
             #[Expression]
+            /** @phpstan-ignore-next-line */
             private string $condition = 'a > b';
         };
         

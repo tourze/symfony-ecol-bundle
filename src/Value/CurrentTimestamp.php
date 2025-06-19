@@ -2,7 +2,7 @@
 
 namespace Tourze\EcolBundle\Value;
 
-use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class CurrentTimestamp implements ExpressionValue
 {
@@ -26,6 +26,6 @@ class CurrentTimestamp implements ExpressionValue
 
     public function getValue(array $values): mixed
     {
-        return Carbon::now()->getTimestamp();
+        return CarbonImmutable::now()->getTimestamp();
     }
 }
