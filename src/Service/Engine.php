@@ -18,8 +18,8 @@ use Tourze\EcolBundle\Value\ExpressionValue;
 class Engine extends ExpressionLanguage
 {
     public function __construct(
-        #[TaggedIterator('ecol.function.provider')] iterable $functionProviders,
-        #[TaggedIterator('ecol.value.provider')] private readonly iterable $valueProviders,
+        #[TaggedIterator(tag: 'ecol.function.provider')] iterable $functionProviders,
+        #[TaggedIterator(tag: 'ecol.value.provider')] private readonly iterable $valueProviders,
         private readonly Security $security,
         private readonly LoggerInterface $logger,
     ) {

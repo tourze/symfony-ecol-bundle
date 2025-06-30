@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 /**
  * 变量值
  */
-#[AutoconfigureTag('ecol.value.provider')]
+#[AutoconfigureTag(name: 'ecol.value.provider')]
 interface ExpressionValue
 {
     /**

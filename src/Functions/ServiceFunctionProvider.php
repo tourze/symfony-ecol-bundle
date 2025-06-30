@@ -9,7 +9,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 /**
  * 参考 \Symfony\Component\DependencyInjection\ExpressionLanguageProvider 新增一些服务函数
  */
-#[AutoconfigureTag('ecol.function.provider')]
+#[AutoconfigureTag(name: 'ecol.function.provider')]
 class ServiceFunctionProvider implements ExpressionFunctionProviderInterface
 {
     public function getFunctions(): array

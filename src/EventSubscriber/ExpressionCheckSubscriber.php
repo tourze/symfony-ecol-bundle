@@ -6,8 +6,8 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use ReflectionClass;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Tourze\EcolBundle\Exception\ExpressionSyntaxException;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tourze\EcolBundle\Attribute\Expression;
@@ -23,8 +23,7 @@ class ExpressionCheckSubscriber
     public function __construct(
         #[Autowire(service: 'symfony-ecol.property-accessor')] private readonly PropertyAccessor $propertyAccessor,
         private readonly Engine $engine,
-    ) {
-    }
+    ) {}
 
     public function prePersist(LifecycleEventArgs $eventArgs): void
     {
@@ -59,7 +58,7 @@ class ExpressionCheckSubscriber
                 }
                 $this->engine->lint($val, null);
             } catch (SyntaxError $exception) {
-                throw new RuntimeException("[{$property->getName()}]语法格式错误：" . $exception->getMessage(), previous: $exception);
+                throw new ExpressionSyntaxException("[{$property->getName()}]语法格式错误：" . $exception->getMessage(), previous: $exception);
             }
         }
     }

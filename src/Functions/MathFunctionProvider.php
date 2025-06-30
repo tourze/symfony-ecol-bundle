@@ -9,7 +9,7 @@ use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 /**
  * 数学相关函数
  */
-#[AutoconfigureTag('ecol.function.provider')]
+#[AutoconfigureTag(name: 'ecol.function.provider')]
 class MathFunctionProvider implements ExpressionFunctionProviderInterface
 {
     public function getFunctions(): array
