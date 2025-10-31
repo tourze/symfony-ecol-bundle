@@ -6,6 +6,7 @@ use Carbon\CarbonImmutable;
 
 class CurrentWeekday6 implements ExpressionValue
 {
+    /** @param array<string, mixed> $values */
     public function isSupported(string $expression, array $values): bool
     {
         foreach ($this->getNames() as $name) {
@@ -17,6 +18,7 @@ class CurrentWeekday6 implements ExpressionValue
         return false;
     }
 
+    /** @return array<string> */
     public function getNames(): array
     {
         return [
@@ -24,8 +26,12 @@ class CurrentWeekday6 implements ExpressionValue
         ];
     }
 
+    /** @param array<string, mixed> $values */
     public function getValue(array $values): mixed
     {
-        return CarbonImmutable::now()->startOfWeek()->weekday(6)->format('Ymd');
+        /** @var CarbonImmutable $date */
+        $date = CarbonImmutable::now()->startOfWeek()->weekday(6);
+
+        return $date->format('Ymd');
     }
 }

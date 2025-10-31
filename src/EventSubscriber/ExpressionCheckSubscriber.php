@@ -3,14 +3,14 @@
 namespace Tourze\EcolBundle\EventSubscriber;
 
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use ReflectionClass;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Tourze\EcolBundle\Exception\ExpressionSyntaxException;
 use Symfony\Component\ExpressionLanguage\SyntaxError;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tourze\EcolBundle\Attribute\Expression;
+use Tourze\EcolBundle\Exception\ExpressionSyntaxException;
 use Tourze\EcolBundle\Service\Engine;
 
 /**
@@ -23,8 +23,12 @@ class ExpressionCheckSubscriber
     public function __construct(
         #[Autowire(service: 'symfony-ecol.property-accessor')] private readonly PropertyAccessor $propertyAccessor,
         private readonly Engine $engine,
-    ) {}
+    ) {
+    }
 
+    /**
+     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
+     */
     public function prePersist(LifecycleEventArgs $eventArgs): void
     {
         $object = $eventArgs->getObject();
@@ -34,6 +38,9 @@ class ExpressionCheckSubscriber
         );
     }
 
+    /**
+     * @param LifecycleEventArgs<EntityManagerInterface> $eventArgs
+     */
     public function preUpdate(LifecycleEventArgs $eventArgs): void
     {
         $object = $eventArgs->getObject();
@@ -43,20 +50,26 @@ class ExpressionCheckSubscriber
         );
     }
 
-    private function checkExpression(object $model, ReflectionClass $reflectionClass): void
+    /**
+     * @param \ReflectionClass<object> $reflectionClass
+     */
+    private function checkExpression(object $model, \ReflectionClass $reflectionClass): void
     {
         foreach ($reflectionClass->getProperties() as $property) {
             $attributes = $property->getAttributes(Expression::class);
-            if (empty($attributes)) {
+            if ([] === $attributes) {
                 continue;
             }
 
             try {
                 $val = $this->propertyAccessor->getValue($model, $property->getName());
-                if (empty($val)) {
+                if (null === $val || '' === $val) {
                     continue;
                 }
-                $this->engine->lint($val, null);
+                if (!is_scalar($val)) {
+                    continue;
+                }
+                $this->engine->lint(strval($val), null);
             } catch (SyntaxError $exception) {
                 throw new ExpressionSyntaxException("[{$property->getName()}]语法格式错误：" . $exception->getMessage(), previous: $exception);
             }

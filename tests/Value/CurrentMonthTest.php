@@ -3,15 +3,22 @@
 namespace Tourze\EcolBundle\Tests\Value;
 
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Tourze\EcolBundle\Value\CurrentMonth;
 
-class CurrentMonthTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CurrentMonth::class)]
+final class CurrentMonthTest extends TestCase
 {
     private CurrentMonth $currentMonth;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->currentMonth = new CurrentMonth();
     }
 

@@ -1,18 +1,27 @@
 <?php
 
-namespace Tourze\EcolBundle\Tests\Unit\Exception;
+namespace Tourze\EcolBundle\Tests\Exception;
 
-use PHPUnit\Framework\TestCase;
-use RuntimeException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Tourze\EcolBundle\Exception\ApiException;
+use Tourze\PHPUnitBase\AbstractExceptionTestCase;
 
-class ApiExceptionTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(ApiException::class)]
+final class ApiExceptionTest extends AbstractExceptionTestCase
 {
+    protected function onSetUp(): void
+    {
+        // 这个测试不需要特殊的设置
+    }
+
     public function testInstantiation(): void
     {
         $exception = new ApiException();
-        
-        $this->assertInstanceOf(RuntimeException::class, $exception);
+
+        $this->assertInstanceOf(\RuntimeException::class, $exception);
         $this->assertInstanceOf(ApiException::class, $exception);
     }
 
@@ -20,7 +29,7 @@ class ApiExceptionTest extends TestCase
     {
         $message = 'Test API exception message';
         $exception = new ApiException($message);
-        
+
         $this->assertEquals($message, $exception->getMessage());
     }
 
@@ -29,16 +38,16 @@ class ApiExceptionTest extends TestCase
         $message = 'Test API exception message';
         $code = 500;
         $exception = new ApiException($message, $code);
-        
+
         $this->assertEquals($message, $exception->getMessage());
         $this->assertEquals($code, $exception->getCode());
     }
 
     public function testWithPreviousException(): void
     {
-        $previousException = new RuntimeException('Previous exception');
+        $previousException = new \RuntimeException('Previous exception');
         $exception = new ApiException('API exception', 0, $previousException);
-        
+
         $this->assertSame($previousException, $exception->getPrevious());
     }
 }

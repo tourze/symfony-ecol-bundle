@@ -6,6 +6,7 @@ use Carbon\CarbonImmutable;
 
 class TodayRange implements ExpressionValue
 {
+    /** @param array<string, mixed> $values */
     public function isSupported(string $expression, array $values): bool
     {
         foreach ($this->getNames() as $name) {
@@ -17,6 +18,7 @@ class TodayRange implements ExpressionValue
         return false;
     }
 
+    /** @return array<string> */
     public function getNames(): array
     {
         return [
@@ -24,6 +26,7 @@ class TodayRange implements ExpressionValue
         ];
     }
 
+    /** @param array<string, mixed> $values */
     public function getValue(array $values): mixed
     {
         $date = CarbonImmutable::now();

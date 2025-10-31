@@ -13,8 +13,9 @@ class ExceptionFunctionProvider implements ExpressionFunctionProviderInterface
     public function getFunctions(): array
     {
         return [
-            new ExpressionFunction('throwApiException', fn($message) => sprintf('(throw new ApiException(%s))', $message), function (array $values, $message): never {
-                throw new ApiException($message);
+            new ExpressionFunction('throwApiException', fn ($message) => sprintf('(throw new ApiException(%s))', is_string($message) ? $message : (is_scalar($message) ? strval($message) : 'Unknown error')), function (array $values, $message): never {
+                $messageString = is_string($message) ? $message : (is_scalar($message) ? strval($message) : 'Unknown error');
+                throw new ApiException($messageString);
             }),
         ];
     }

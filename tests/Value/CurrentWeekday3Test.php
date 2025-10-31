@@ -3,15 +3,22 @@
 namespace Tourze\EcolBundle\Tests\Value;
 
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Tourze\EcolBundle\Value\CurrentWeekday3;
 
-class CurrentWeekday3Test extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CurrentWeekday3::class)]
+final class CurrentWeekday3Test extends TestCase
 {
     private CurrentWeekday3 $currentWeekday3;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->currentWeekday3 = new CurrentWeekday3();
     }
 
@@ -31,7 +38,9 @@ class CurrentWeekday3Test extends TestCase
     public function testGetValue(): void
     {
         $value = $this->currentWeekday3->getValue([]);
-        $expectedDate = CarbonImmutable::now()->startOfWeek()->weekday(3)->format('Ymd');
+        /** @var CarbonImmutable $date */
+        $date = CarbonImmutable::now()->startOfWeek()->weekday(3);
+        $expectedDate = $date->format('Ymd');
 
         $this->assertEquals($expectedDate, $value);
         $this->assertIsString($value);

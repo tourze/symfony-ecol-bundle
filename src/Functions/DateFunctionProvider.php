@@ -18,15 +18,27 @@ class DateFunctionProvider implements ExpressionFunctionProviderInterface
     public function getFunctions(): array
     {
         return [
-            new ExpressionFunction('date', fn($date) => sprintf('(new \DateTime(%s))', $date), fn(array $values, $date) => new \DateTime($date)),
+            new ExpressionFunction('date', fn ($date) => sprintf('(new \DateTime(%s))', $this->formatDateParam($date)), function (array $values, $date): \DateTime {
+                return new \DateTime($this->formatDateParam($date));
+            }),
 
-            new ExpressionFunction('date_modify', fn($date, $modify) => sprintf('%s->modify(%s)', $date, $modify), function (array $values, $date, $modify): \DateTime|bool {
+            new ExpressionFunction('date_modify', fn ($date, $modify) => sprintf('%s->modify(%s)', $this->formatDateParam($date), $this->formatModifyParam($modify)), function (array $values, $date, $modify): \DateTime|bool {
                 if (!$date instanceof \DateTime) {
                     throw new DateModifyException('date_modify() expects parameter 1 to be a Date');
                 }
 
-                return $date->modify($modify);
+                return $date->modify($this->formatModifyParam($modify));
             }),
         ];
+    }
+
+    private function formatDateParam(mixed $date): string
+    {
+        return is_string($date) ? $date : (is_scalar($date) ? strval($date) : 'now');
+    }
+
+    private function formatModifyParam(mixed $modify): string
+    {
+        return is_string($modify) ? $modify : (is_scalar($modify) ? strval($modify) : '');
     }
 }

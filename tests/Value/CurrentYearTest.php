@@ -3,15 +3,22 @@
 namespace Tourze\EcolBundle\Tests\Value;
 
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Tourze\EcolBundle\Value\CurrentYear;
 
-class CurrentYearTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CurrentYear::class)]
+final class CurrentYearTest extends TestCase
 {
     private CurrentYear $currentYear;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->currentYear = new CurrentYear();
     }
 

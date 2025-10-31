@@ -3,15 +3,22 @@
 namespace Tourze\EcolBundle\Tests\Value;
 
 use Carbon\CarbonImmutable;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Tourze\EcolBundle\Value\CurrentWeekday0;
 
-class CurrentWeekday0Test extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(CurrentWeekday0::class)]
+final class CurrentWeekday0Test extends TestCase
 {
     private CurrentWeekday0 $currentWeekday0;
 
     protected function setUp(): void
     {
+        parent::setUp();
+
         $this->currentWeekday0 = new CurrentWeekday0();
     }
 
@@ -31,10 +38,13 @@ class CurrentWeekday0Test extends TestCase
     public function testGetValue(): void
     {
         $value = $this->currentWeekday0->getValue([]);
-        $expectedDate = CarbonImmutable::now()->startOfWeek()->weekday(0)->format('Ymd');
+        /** @var CarbonImmutable $date */
+        $date = CarbonImmutable::now()->startOfWeek()->weekday(0);
+        $expectedDate = $date->format('Ymd');
 
-        $this->assertEquals($expectedDate, $value);
+        // getValue() 返回的是格式化后的字符串
         $this->assertIsString($value);
+        $this->assertEquals($expectedDate, $value);
         $this->assertMatchesRegularExpression('/^\d{8}$/', $value); // 8位数字格式 YYYYMMDD
     }
 }

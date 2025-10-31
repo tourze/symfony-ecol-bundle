@@ -2,18 +2,26 @@
 
 namespace Tourze\EcolBundle\Tests\Functions;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Tourze\EcolBundle\Functions\ServiceFunctionProvider;
+use Tourze\PHPUnitSymfonyKernelTest\AbstractIntegrationTestCase;
 
-class ServiceFunctionProviderTest extends TestCase
+/**
+ * @internal
+ */
+#[CoversClass(ServiceFunctionProvider::class)]
+#[RunTestsInSeparateProcesses]
+final class ServiceFunctionProviderTest extends AbstractIntegrationTestCase
 {
     private ExpressionLanguage $expressionLanguage;
 
-    protected function setUp(): void
+    protected function onSetUp(): void
     {
+        $provider = self::getService(ServiceFunctionProvider::class);
         $this->expressionLanguage = new ExpressionLanguage();
-        $this->expressionLanguage->registerProvider(new ServiceFunctionProvider());
+        $this->expressionLanguage->registerProvider($provider);
     }
 
     public function testEnvFunction(): void
@@ -47,11 +55,11 @@ class ServiceFunctionProviderTest extends TestCase
 
     public function testGetFunctions(): void
     {
-        $provider = new ServiceFunctionProvider();
+        $provider = self::getService(ServiceFunctionProvider::class);
         $functions = $provider->getFunctions();
 
         $this->assertCount(2, $functions);
-        $functionNames = array_map(fn($f) => $f->getName(), $functions);
+        $functionNames = array_map(fn ($f) => $f->getName(), $functions);
         $this->assertContains('env', $functionNames);
         $this->assertContains('hasEnv', $functionNames);
     }
