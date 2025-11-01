@@ -8,6 +8,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Security\Core\Authorization\ExpressionLanguageProvider;
 use Tourze\EcolBundle\Value\ExpressionValue;
@@ -20,7 +21,7 @@ use Tourze\EcolBundle\Value\ExpressionValue;
 class Engine extends ExpressionLanguage
 {
     /**
-     * @param iterable<\Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface> $functionProviders
+     * @param iterable<ExpressionFunctionProviderInterface> $functionProviders
      * @param iterable<ExpressionValue> $valueProviders
      */
     public function __construct(
@@ -32,7 +33,7 @@ class Engine extends ExpressionLanguage
         parent::__construct();
 
         foreach ($functionProviders as $functionProvider) {
-            /** @var \Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface $functionProvider */
+            /** @var ExpressionFunctionProviderInterface $functionProvider */
             $this->registerProvider($functionProvider);
         }
 
@@ -44,7 +45,6 @@ class Engine extends ExpressionLanguage
 
     /**
      * @param array<string, mixed> $values
-     * @phpstan-ignore-next-line method.childParameterType
      */
     public function evaluate(Expression|string $expression, array $values = []): mixed
     {
